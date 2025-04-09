@@ -11,4 +11,4 @@ Start application:
 1. Install dependencies listed in requirements.txt: -> pip install -r requirements.txt
 2. Run main.py 
 	-> this starts the Flask server on local host
-3. Access the chat bot on http://127.0.0.1:5000/ in web browser
+3. Access the chat bot on http://127.0.0.1:5000/ in web the browser
