@@ -51,11 +51,6 @@ def calculate_response(user_selection, session):
             "options": ["Main Menu"]
         }
     
-    except json.JSONDecodeError:
-        return {
-            "message": "Error reading stock data. Please check the file format.",
-            "options": ["Main Menu"]
-        }
     # Initialize first step
     if "step" not in session:
         session["step"] = "select_stock_exchange"
