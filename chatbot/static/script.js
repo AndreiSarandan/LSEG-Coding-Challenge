@@ -65,6 +65,12 @@ function sendMessageToServer() {
     sendMessage(message);
 }
 
+function reset() {
+    const chat = document.getElementById("chat");
+
+    sendMessage("main menu", false);
+}
+
 window.onload = () => {
     // Initiate conversation
     sendMessage("Hello!");

@@ -55,3 +55,8 @@
 #text-input-area input {
     flex: 1;
 }
+
+#reset {
+    margin-top: 10px;
+
+}

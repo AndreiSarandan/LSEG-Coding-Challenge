@@ -54,22 +54,23 @@ def calculate_response(user_selection, session):
     # Initialize first step
     if "step" not in session:
         session["step"] = "select_stock_exchange"
-    
+
     # Check if user selection is empty
     if user_selection == "":
         return {
-            "message": "Invalid option. Please select an option:",
+            "message": "Please select a valid option from the list:",
             "options": ["Main menu"]
         }
+    
+    # Get stock exchanges from file
+    stock_exchanges = get_stock_echanges(data)
 
-        
     #Step 0 -> Initialize chat
     if user_selection.lower() == "main menu" or "hello" in user_selection.lower():
         session.clear()
         session["step"] = "select_stock_exchange"
-        stock_exchanges = get_stock_echanges(data)
         return {
-            "message": "Please select a Stock Exchange:",
+            "message": "Please select a Stock Exchange from the list:",
             "options": stock_exchanges
         }
 
@@ -84,12 +85,11 @@ def calculate_response(user_selection, session):
             # Load stocks for selected exchange  
             stocks = get_stock_options(data, user_selection)
             return {
-                "message": "Please select a stock:",
+                "message": "Please select a stock from the list:",
                 "options": stocks
             }
         # If user selection is not in stock exchange list
         else:
-            stock_exchanges = get_stock_echanges(data)
             return {
                 "message": "Please select a stock exchange from the list:",
                 "options": stock_exchanges
@@ -105,19 +105,19 @@ def calculate_response(user_selection, session):
             session["step"] = "select_stock"
             stocks = get_stock_options(data, selected_exchange)
             return {
-                "message": "Please select a stock:",
+                "message": "Please select a stock from the list:",
                 "options": stocks
             }
         # Calculate stock price
         stock_price = get_stock_price(user_selection, data)
         if stock_price:
             return {
-                "message": f"Stock price for {user_selection} is {stock_price}. Please select an option:",
+                "message": f"Stock price for {user_selection} is {stock_price}. Please select an option from the list:",
                 "options": ["Main Menu", "Go Back"]
             }
         else:
             return {
-                "message": f"Stock {user_selection} is not listed on {selected_exchange}. Please select an option:",
+                "message": f"Stock {user_selection} is not listed on {selected_exchange}. Please select an option from the list:",
                 "options": ["Main Menu", "Go Back"]
             }
 
