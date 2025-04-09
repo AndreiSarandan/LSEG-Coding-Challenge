@@ -40,12 +40,32 @@ def get_stock_price(user_selection, data):
 
 
 def calculate_response(user_selection, session):
-    with open('Chatbot - stock data.json') as f:
-        data = json.load(f)
+    try:
+        with open('Chatbot - stock data.json') as f:
+            data = json.load(f)
 
+    # add exception for missing file
+    except FileNotFoundError:
+        return {
+            "message": "Data file not found. Please check the file path again.",
+            "options": ["Main Menu"]
+        }
+    
+    except json.JSONDecodeError:
+        return {
+            "message": "Error reading stock data. Please check the file format.",
+            "options": ["Main Menu"]
+        }
     # Initialize first step
     if "step" not in session:
         session["step"] = "select_stock_exchange"
+    
+    # Check if user selection is empty
+    if user_selection == "":
+        return {
+            "message": "Invalid option. Please select an option:",
+            "options": ["Main menu"]
+        }
 
         
     #Step 0 -> Initialize chat
