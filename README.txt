@@ -6,6 +6,8 @@ While this is a relatively short and simple project, I followed the default Flas
 	-> configure API endpoints for HTTP requests in main.py
 	-> chat bot logic (parsing the .json file) implemented in backend.py 
 
+Additionally I added a reset button. This helps user restart the conversation at any point in time. It is especially useful if some uncaught errors interrupt the normal behavior of the chat bot.
+
 
 Start application:
 1. Install dependencies listed in requirements.txt: -> pip install -r requirements.txt
