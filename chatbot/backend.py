@@ -6,7 +6,7 @@ def select_exchange(user_selection, data):
     user_selection = user_selection.strip().lower()
     
     for exchange in data:
-        if (user_selection in exchange["stockExchange"].lower()):
+        if user_selection in exchange["stockExchange"].lower():
             return exchange
     return None
 
@@ -14,7 +14,12 @@ def select_exchange(user_selection, data):
 def get_stock_echanges(data):
     stock_exchanges = []
     for exchange in data:
-        stock_exchanges.append(exchange["stockExchange"])
+        # Check data file structure
+        try:
+            stock_exchanges.append(exchange["stockExchange"])
+        except KeyError:
+            stock_exchanges = ["No stock exchanges found."]
+
     return stock_exchanges
 
 
@@ -23,7 +28,10 @@ def get_stock_options(data, selected_exchange):
     for exchange in data:
         if exchange["stockExchange"].lower() == selected_exchange.lower():
             for stock in exchange["topStocks"]:
-                stock_options.append(stock["stockName"])
+                try:
+                    stock_options.append(stock["stockName"])
+                except KeyError:
+                    stock_options = ["No stocks found."]
             break
     return stock_options
 
@@ -34,22 +42,29 @@ def get_stock_price(user_selection, data):
     
     for exchange in data:
         for stock in exchange["topStocks"]:
-            if (user_selection in stock["stockName"].lower()):
+            if user_selection in stock["stockName"].lower() or user_selection in stock["code"].lower():
                 return stock["price"]
     return None
 
-
-def calculate_response(user_selection, session):
+def open_file(file_name):
     try:
-        with open('Chatbot - stock data.json') as f:
+        with open(file_name) as f:
             data = json.load(f)
+        return data
 
-    # add exception for missing file
+    # Add exception for missing data file
     except FileNotFoundError:
         return {
             "message": "Data file not found. Please check the file path again.",
             "options": ["Main Menu"]
         }
+    # Other exceptions for data file
+    except Exception as e:
+        return f"Error reading CSV: {e}"
+
+def calculate_response(user_selection, session):
+
+    data = open_file("Chatbot - stock data.json")
     
     # Initialize first step
     if "step" not in session:
