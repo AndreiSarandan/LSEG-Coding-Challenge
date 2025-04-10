@@ -60,7 +60,7 @@ def open_file(file_name):
         }
     # Other exceptions for data file
     except Exception as e:
-        return f"Error reading CSV: {e}"
+        return f"Error reading JSON data file: {e}"
 
 def calculate_response(user_selection, session):
 
